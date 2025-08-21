@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detector de Gatos y Perros</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐱 Detector de Gatos y Perros 🐶</h1>
+            <p class="subtitle">Detección en tiempo real con IA</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="panel">
+                <h2 class="panel-title">
+                    <span class="icon">📷</span>
+                    <span>Controles</span>
+                </h2>
+                
+                <!-- Selector de Modelo -->
+                <div class="model-selector">
+                    <label for="modelType">Seleccionar modelo:</label>
+                    <select id="modelType">
+                        <option value="personalizado">Seleccionar:</option>
+                        <option value="coco-ssd">Modelo TFJS</option>
+                    </select>
+                </div>
+                
+                <div class="controls">
+                    <button id="webcamBtn" class="btn-primary">
+                        <span class="btn-icon">🎥</span>
+                        <span>Activar Cámara</span>
+                    </button>
+                    <button id="stopWebcamBtn" class="btn-secondary" disabled>
+                        <span class="btn-icon">⏹️</span>
+                        <span>Detener Cámara</span>
+                    </button>
+                    
+                    <div class="file-upload">
+                        <label for="uploadInput" class="file-upload-label">
+                            <span class="btn-icon">📁</span>
+                            <span>Seleccionar imagen</span>
+                        </label>
+                        <input type="file" id="uploadInput" accept="image/*">
+                    </div>
+                </div>
+                
+                <div class="video-container">
+                    <video id="webcam" autoplay playsinline></video>
+                    <canvas id="outputCanvas"></canvas>
+                    <div class="camera-overlay">
+                        <div class="overlay-text">Cámara desactivada</div>
+                    </div>
+                </div>
+                
+                <div class="image-preview">
+                    <img id="uploadedImage" alt="Imagen subida">
+                </div>
+                
+                <div id="status" class="status">
+                    <div class="spinner"></div>
+                    <p>Cargando modelo, por favor espere...</p>
+                </div>
+            </div>
+            
+            <div class="panel">
+                <h2 class="panel-title">
+                    <span class="icon">📊</span>
+                    <span>Resultados</span>
+                </h2>
+                <div class="results">
+                    <div class="result-item">
+                        <div class="animal-count">
+                            <span class="animal-icon cat-icon">🐱</span>
+                            <span>Gatos detectados:</span>
+                        </div>
+                        <span id="catCount" class="count">0</span>
+                    </div>
+                    
+                    <div class="result-item">
+                        <div class="animal-count">
+                            <span class="animal-icon dog-icon">🐶</span>
+                            <span>Perros detectados:</span>
+                        </div>
+                        <span id="dogCount" class="count">0</span>
+                    </div>
+                    
+                    <div class="result-item">
+                        <span>Total de animales:</span>
+                        <span id="totalCount" class="count">0</span>
+                    </div>
+
+                    <div class="confidence-meter">
+                        <div class="meter-label">Precisión general:</div>
+                        <div class="meter-container">
+                            <div id="confidenceBar" class="meter-bar"></div>
+                        </div>
+                        <span id="confidenceValue" class="meter-value">0%</span>
+                    </div>
+                    
+                    <div class="model-info">
+                        <span>Modelo actual:</span>
+                        <span id="currentModel">Mi Modelo Entrenado</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>TensorFlow.js</p>
+        </footer>
+    </div>
+
+    <!-- Cargar TensorFlow.js (versión más reciente para mejor compatibilidad con Keras 3.x) -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.15.0/dist/tf.min.js"></script>
+    <!-- Cargar COCO-SSD -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.2/dist/coco-ssd.min.js"></script>
+    <!-- Configurar backend de TensorFlow.js -->
+    <script>
+        // Usar WebGL para mejor rendimiento
+        tf.setBackend('webgl').then(() => console.log('Backend WebGL cargado'));
+    </script>
+    
+    <script src="script.js"></script>
+</body>
+</html>
